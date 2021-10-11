@@ -13,6 +13,8 @@ gscale2 = '@%#*+=-:. '
 
 
 def getAverageL(image):
+    """Given PIL IMage, return average value of grayscale value"""
+
     # get the image ass numpy array
     im = np.array(image)
 
@@ -37,9 +39,6 @@ def convertImageToAscii(fileName, cols, scale, moreLevels):
 
     #compute tle width
     w = W / cols
-
-    #compute tile heigth based on the aspect ratio and scale of the font
-    w = W / scale
 
     #compute tile height based on the aspect ratio ans scale of the font
     h = w / scale
@@ -66,32 +65,32 @@ def convertImageToAscii(fileName, cols, scale, moreLevels):
         # correct the last tile
         if j == rows-1:
             y2 = H
-    aimg.append("")
-    for i in range(cols):
-        #crop the image to fit the tile
-        x1 = int(i * w)
-        x2 = int((i + 1) * w)
+        aimg.append("")
+        for i in range(cols):
+            #crop the image to fit the tile
+            x1 = int(i * w)
+            x2 = int((i + 1) * w)
 
-        #correct the last tile
-        if i == cols - 1:
-            x2 = W
+            #correct the last tile
+            if i == cols - 1:
+                x2 = W
 
-    #Crop the image to extract the tile into another Image object
-    img = image.crop((x1, y1, x2, y2))
+            #Crop the image to extract the tile into another Image object
+            img = image.crop((x1, y1, x2, y2))
 
-    #get the average luminance
-    avg = int(getAverageL(img))
+            #get the average luminance
+            avg = int(getAverageL(img))
 
-    #look up the ASCII character for grayscale value (avg)
-    if moreLevels:
-        gsval = gscale1[int((avg * 69) / 255)]
+            #look up the ASCII character for grayscale value (avg)
+            if moreLevels:
+                gsval = gscale1[int((avg * 69) / 255)]
 
-    else:
-        gsval = gscale2[int((avg * 9) / 255)]
+            else:
+                gsval = gscale2[int((avg * 9) / 255)]
 
-    #append the ASCII character to the string
+            #append the ASCII character to the string
 
-    aimg[j] +=gsval
+            aimg[j] +=gsval
 
     #return text timage
     return aimg
@@ -142,7 +141,7 @@ def main():
 
     #clean up
     f.close()
-    print("ASCII aert written to %s" % outFile)
+    print("ASCII art written to %s" % outFile)
 
 #call main
 if __name__ == '__main__':
